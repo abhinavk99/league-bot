@@ -63,10 +63,9 @@ func GetSummonerInfo(username string) (str string) {
 	str += ("Data for " + summ.Name + ":\n\n")
 	for i := 0; i < 5; i++ {
 		element := list[i]
-		id := strconv.Itoa(element.ID)
 		points := strconv.Itoa(element.Points)
 		level := strconv.Itoa(element.Level)
-		str += ("Champion " + id + ": Level " + level + "\n" + points + " mastery points" + "\n\n")
+		str += (GetChampionName(element.ID) + ": Level " + level + "\n" + points + " mastery points" + "\n\n")
 	}
 	return
 }
