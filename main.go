@@ -18,11 +18,11 @@ type Configuration struct {
 }
 
 var conf Configuration
+var api gololapi.GoLOLAPI
 
 func main() {
 
 	// Load config.json and get Telegram and League tokens
-
 	file, err := os.Open("config.json")
 	defer file.Close()
 	if err != nil {
@@ -37,6 +37,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	// Access the Riot API in the NA server
+	api = gololapi.NewAPI(gololapi.NA, conf.LeagueToken, 0.8)
 
 	// Handles the command /user
 	bot.HandleFunc("/user {username}", UserHandler)
@@ -56,8 +59,6 @@ func UserHandler(message *tbot.Message) {
 
 // GetSummonerInfo : Gets summoner info
 func GetSummonerInfo(username string) (str string) {
-	// Access the Riot API in the NA server
-	api := gololapi.NewAPI(gololapi.NA, conf.LeagueToken, 0.8)
 	summ := api.GetSummonerByName(username)
 	list := summ.GetChampionMasteries()
 	str += ("Data for " + summ.Name + ":\n\n")
